@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta charset="utf-8" /
+    meta content="IE=edge" http-equiv="X-UA-Compatible" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    /! The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    meta content="" name="description" /
+    meta content="" name="author" /
+    / google fonts より、Open sansの細いやつを使う
+    link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    title = app_name.downcase
+  body
+    nav.navbar.navbar-fixed-top.clearfix.navbar-default
+      .container
+        .navbar-header
+          .app-brand
+            a href="/" = app_name.downcase
+          a.navbar-toggle.collapsed data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
+            span.sr-only Toggle navigation
+            span.glyphicon.glyphicon-menu-down
+        #navbar.collapse.navbar-collapse
+          ul.nav.nav-pills.pull-right
+            li role="presentation"
+              a#toTop href="/" Top
+    .container#main
+      == yield
+    .footer
+      .container
+        p
+          | &copy; your copy
+          | &nbsp;
+          - since = '2015'
+          - nowyear = Date.today.strftime('%Y')
+          = since
+          - unless since == nowyear
+            = "&nbsp;-&nbsp;" + nowyear
+    /! /container

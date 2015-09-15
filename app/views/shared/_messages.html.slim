@@ -1,0 +1,6 @@
+- if flash[:messages]
+  #messages
+    - flash[:messages].each do |m|
+      .row
+        .col-12-xs
+          = render m
