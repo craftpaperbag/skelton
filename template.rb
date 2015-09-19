@@ -3,7 +3,7 @@ puts <<-EOF
        ,--.          ,--.  ,--.
  ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,
 (  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \
-.-'  `)|  \  \\   --.|  |  |  |  ' '-' '|  ||  |
+.-'  `)|  \  \\\\   --.|  |  |  |  ' '-' '|  ||  |
 `----' `--'`--'`----'`--'  `--'   `---' `--''--'
   Rails Application Template @ craftpaperbag
 
@@ -34,11 +34,12 @@ run "cp #{FILES_ROOT}/gitignore_template ./.gitignore"
 # Gemfile
 
 preset 'Gemfile'
+run "sed -i -e \"s/RUBY_VERSION/#{RUBY_VERSION}/\" Gemfile"
 
 # -----------------------------------------------------------------
 # configure & bundle install
 
-gen_config <<-EOF
+gen_config = <<-EOF
 config.generators do |g|
   g.test_framework = "rspec"
   g.controller_specs = false
