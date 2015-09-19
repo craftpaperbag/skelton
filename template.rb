@@ -1,26 +1,39 @@
 puts <<-EOF
-                                                 
-       ,--.          ,--.  ,--.                  
- ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,  
-(  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \ 
-.-'  `)|  \  \\   --.|  |  |  |  ' '-' '|  ||  | 
-`----' `--'`--'`----'`--'  `--'   `---' `--''--' 
-                                                 
-Rails Application Template @ craftpaperbag
+
+       ,--.          ,--.  ,--.
+ ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,
+(  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \
+.-'  `)|  \  \\   --.|  |  |  |  ' '-' '|  ||  |
+`----' `--'`--'`----'`--'  `--'   `---' `--''--'
+  Rails Application Template @ craftpaperbag
 
 EOF
 
+# -----------------------------------------------------------------
+# 準備
+
 TEMPLATE_ROOT = File.expand_path('../', __FILE__)
 FILES_ROOT = File.expand_path('../files/', __FILE__)
+
+# ファイルパスを渡すと、
+# files以下のファイルを
+# 作っているrailsアプリ側に配置する
+def preset(filepaths = [])
+  filepaths = [filepaths] unless filepaths.class == Array
+  filepaths.each do |filepath|
+    run "cp #{FILES_ROOT}/#{fileapth} ./#{filepath}"
+  end
+end
+
 # -----------------------------------------------------------------
 # Git
 
 run "cp #{FILES_ROOT}/gitignore_template ./.gitignore"
 
 # -----------------------------------------------------------------
-# Gem
+# Gemfile
 
-run "cp #{FILES_ROOT}/Gemfile ."
+preset 'Gemfile'
 
 # -----------------------------------------------------------------
 # configure & bundle install
@@ -37,46 +50,49 @@ environment gen_config
 
 run 'bundle install --path=vendor/bundle --without=production'
 run 'bundle binstubs rspec-core'
-run 'rm -rf test'
 generate 'rspec:install'
-run "cp #{FILES_ROOT}/rails_helper.rb ./spec/"
-run 'mkdir spec/features'
 
 # -----------------------------------------------------------------
-# First controller
+# Change files & directories
 
 run 'rm -f app/assets/stylesheets/application.css'
-run "cp #{FILES_ROOT}/assets/application.scss app/assets/stylesheets/"
-
-run "cp #{FILES_ROOT}/assets/application.js app/assets/javascripts/"
-run "cp #{FILES_ROOT}/assets/messages.js app/assets/javascripts/"
-
-run "cp #{FILES_ROOT}/concerns/message_action.rb app/controllers/concerns/"
-
-run "cp #{FILES_ROOT}/controllers/application_controller.rb app/controllers/"
-
-run "mkdir app/views/shared"
+run 'rm -rf test'
+run 'mkdir app/views/shared'
+run 'mkdir spec/features'
 run 'rm -f app/views/layouts/application.html.erb'
-run "cp #{FILES_ROOT}/views/shared/_messages.html.slim app/views/shared/"
-run "cp #{FILES_ROOT}/views/layouts/application.html.slim app/views/layouts/"
-
-run "cp #{FILES_ROOT}/helpers/application_helper.rb app/helpers/"
-
 generate 'controller top index:get'
 route "root to: 'top#index'"
-run "cp #{FILES_ROOT}/views/top/index.html.slim app/views/top/"
 
-run "cp #{FILES_ROOT}/spec/top_page_spec.rb ./spec/features/"
+preset %w(
+  app/assets/application.scss
+  app/assets/javascripts/application.js
+  app/assets/javascripts/messages.js
 
+  app/controllers/concerns/message_action.rb
+  app/controllers/application_controller.rb
 
-# -----------------------------------------------------------------
-# for CircleCI
+  app/views/layouts/application.html.slim
+  app/views/top/index.html.slim
+  app/views/shared/_messages.html.slim
 
-run "cp #{FILES_ROOT}/circle.yml ."
+  app/helpers/application_helper.rb
 
-# -----------------------------------------------------------------
-# for Heroku
+  spec/rails_helper.rb
+  spec/features/top_page_spec.rb
 
+  config/database.yml
 
-run "cp #{FILES_ROOT}/config/database.yml config/"
-# TODO secrets.ymlを生成
+  circle.yml
+)
+
+puts <<-EOF
+      Please:
+      - input your copy into 'app/views/layouts/application.html.slim:34'
+
+      If you want to deploy on Heroku with CircleCI:
+      - input your heroku app name into 'circle.yml'
+      - input your heroku DB information into 'config/database.yml'
+
+      $ bundle exec rails s
+      $ open http://localhost:3000
+EOF
