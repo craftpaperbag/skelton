@@ -21,7 +21,7 @@ FILES_ROOT = File.expand_path('../files/', __FILE__)
 def preset(filepaths = [])
   filepaths = [filepaths] unless filepaths.class == Array
   filepaths.each do |filepath|
-    run "cp #{FILES_ROOT}/#{fileapth} ./#{filepath}"
+    run "cp #{FILES_ROOT}/#{filepath} ./#{filepath}"
   end
 end
 
