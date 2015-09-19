@@ -46,10 +46,10 @@ run 'mkdir spec/features'
 # First controller
 
 run 'rm -f app/assets/stylesheets/application.css'
-run "cp #{FILES_ROOT}/application.scss app/assets/stylesheets/"
+run "cp #{FILES_ROOT}/assets/application.scss app/assets/stylesheets/"
 
-run "cp #{FILES_ROOT}/application.js app/assets/javascripts/"
-run "cp #{FILES_ROOT}/messages.js app/assets/javascripts/"
+run "cp #{FILES_ROOT}/assets/application.js app/assets/javascripts/"
+run "cp #{FILES_ROOT}/assets/messages.js app/assets/javascripts/"
 
 run "cp #{FILES_ROOT}/concerns/message_action.rb app/controllers/concerns/"
 
@@ -72,11 +72,11 @@ run "cp #{FILES_ROOT}/spec/top_page_spec.rb ./spec/features/"
 # -----------------------------------------------------------------
 # for CircleCI
 
-# TODO circle.ymlを配置
+run "cp #{FILES_ROOT}/circle.yml ."
 
 # -----------------------------------------------------------------
 # for Heroku
 
 
-# TODO database.ymlを配置
+run "cp #{FILES_ROOT}/config/database.yml config/"
 # TODO secrets.ymlを生成
