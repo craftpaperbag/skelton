@@ -86,13 +86,18 @@ preset %w(
 )
 
 puts <<-EOF
-      Please:
+
+    Please:
       - input your copy into 'app/views/layouts/application.html.slim:34'
 
-      If you want to deploy on Heroku with CircleCI:
+    If you want to deploy on Heroku with CircleCI:
       - input your heroku app name into 'circle.yml'
       - input your heroku DB information into 'config/database.yml'
 
+    Let's check your app:
       $ bundle exec rails s
       $ open http://localhost:3000
+
+    Enjoy! :D
+
 EOF
