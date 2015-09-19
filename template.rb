@@ -1,41 +1,31 @@
+puts <<-EOF
+                                                 
+       ,--.          ,--.  ,--.                  
+ ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,  
+(  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \ 
+.-'  `)|  \  \\   --.|  |  |  |  ' '-' '|  ||  | 
+`----' `--'`--'`----'`--'  `--'   `---' `--''--' 
+                                                 
+Rails Application Template @ craftpaperbag
+
+EOF
+
+TEMPLATE_ROOT = File.expand_path('../', __FILE__)
+FILES_ROOT = File.expand_path('../files/', __FILE__)
 # -----------------------------------------------------------------
 # Git
 
-# TODO git ignore を配置
-# TODO README.md を配置
+run "cp #{FILES_ROOT}/gitignore_template ./.gitignore"
 
 # -----------------------------------------------------------------
 # Gem
 
-# TODO ruby バージョンを明記
-
-gem_group :test, :development do
-  gem 'rspec-rails'
-  gem 'capybara-rails'
-  gem 'factory_girl_rails'
-  gem 'simplecov'
-  gem 'sqlite3'
-end
-
-gem_group :development do
-  gem 'spring'
-end
-
-gem 'bootstrap-sass'
-gem 'sass-rails'
-gem 'slim-rails'
-gem 'unicorn-rails'
-gem 'turbolinks'
-
-gem_group :production do
-  gem 'pg'
-end
+run "cp #{FILES_ROOT}/Gemfile ."
 
 # -----------------------------------------------------------------
-# for Rspec
+# configure & bundle install
 
-# TODO config/application.rbに作らないテストを追記
-config = <<-EOF
+gen_config <<-EOF
 config.generators do |g|
   g.test_framework = "rspec"
   g.controller_specs = false
@@ -43,32 +33,40 @@ config.generators do |g|
   g.view_specs = false
 end
 EOF
+environment gen_config
 
 run 'bundle install --path=vendor/bundle --without=production'
 run 'bundle binstubs rspec-core'
 run 'rm -rf test'
 generate 'rspec:install'
-# TODO rails_helper.rb に追記
-"config.include FactoryGirl::Syntax::Methods"
-
-# TODO spec/features/top_page_spec.rb を配置
+run "cp #{FILES_ROOT}/rails_helper.rb ./spec/"
+run 'mkdir spec/features'
 
 # -----------------------------------------------------------------
-# for Bootstrap & first controller
+# First controller
 
-# TODO application.css->application.scssにして、中身を整理
-# TODO application.jsを置き換え
-run 'rm app/assets/stylesheets/application.css'
+run 'rm -f app/assets/stylesheets/application.css'
+run "cp #{FILES_ROOT}/application.scss app/assets/stylesheets/"
 
-# TODO MessageActionを配置
-# TODO ApplicationControllerを置き換え
-# TODO views/shared/_messages.html.slimを配置
-# TODO views/layouts/application.html.erb を 消す
-# TODO views/layouts/application.html.slim を 配置
+run "cp #{FILES_ROOT}/application.js app/assets/javascripts/"
+run "cp #{FILES_ROOT}/messages.js app/assets/javascripts/"
 
-generate 'controller top index'
-# TODO ルーティングを追加 root -> 'top#index'
-# TODO app/views/top/index.html.slim を置き換え
+run "cp #{FILES_ROOT}/concerns/message_action.rb app/controllers/concerns/"
+
+run "cp #{FILES_ROOT}/controllers/application_controller.rb app/controllers/"
+
+run "mkdir app/views/shared"
+run 'rm -f app/views/layouts/application.html.erb'
+run "cp #{FILES_ROOT}/views/shared/_messages.html.slim app/views/shared/"
+run "cp #{FILES_ROOT}/views/layouts/application.html.slim app/views/layouts/"
+
+run "cp #{FILES_ROOT}/helpers/application_helper.rb app/helpers/"
+
+generate 'controller top index:get'
+route "root to: 'top#index'"
+run "cp #{FILES_ROOT}/views/top/index.html.slim app/views/top/"
+
+run "cp #{FILES_ROOT}/spec/top_page_spec.rb ./spec/features/"
 
 
 # -----------------------------------------------------------------
