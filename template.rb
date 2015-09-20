@@ -1,11 +1,11 @@
-puts <<-EOF
+puts <<-'EOF'
 
-       ,--.          ,--.  ,--.
- ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,
-(  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \
-.-'  `)|  \  \\\\   --.|  |  |  |  ' '-' '|  ||  |
-`----' `--'`--'`----'`--'  `--'   `---' `--''--'
-  Rails Application Template @ craftpaperbag
+           ,--.          ,--.  ,--.
+     ,---. |  |,-. ,---. |  |,-'  '-. ,---. ,--,--,
+    (  .-' |     /| .-. :|  |'-.  .-'| .-. ||      \
+    .-'  `)|  \  \\   --.|  |  |  |  ' '-' '|  ||  |
+    `----' `--'`--'`----'`--'  `--'   `---' `--''--'
+      Rails Application Template @ craftpaperbag
 
 EOF
 
@@ -65,7 +65,7 @@ generate 'controller top index:get'
 route "root to: 'top#index'"
 
 preset %w(
-  app/assets/application.scss
+  app/assets/stylesheets/application.scss
   app/assets/javascripts/application.js
   app/assets/javascripts/messages.js
 
