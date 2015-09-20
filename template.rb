@@ -61,7 +61,7 @@ run 'rm -rf test'
 run 'mkdir app/views/shared'
 run 'mkdir spec/features'
 run 'rm -f app/views/layouts/application.html.erb'
-generate 'controller top index:get'
+generate 'controller top index'
 route "root to: 'top#index'"
 
 preset %w(
