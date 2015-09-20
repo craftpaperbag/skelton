@@ -97,6 +97,7 @@ puts <<-EOF
       - input your heroku DB information into 'config/database.yml'
 
     Let's check your app:
+      $ cd #{app_name}
       $ bundle exec rails s
       $ open http://localhost:3000
 
