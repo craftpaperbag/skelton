@@ -66,6 +66,7 @@ route "root to: 'top#index'"
 
 preset %w(
   app/assets/stylesheets/application.scss
+  app/assets/stylesheets/top.scss
   app/assets/javascripts/application.js
   app/assets/javascripts/messages.js
 
